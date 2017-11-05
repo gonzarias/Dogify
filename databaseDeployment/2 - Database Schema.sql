@@ -49,36 +49,48 @@ CREATE TABLE scores (
 --
 -- Table structure for table users
 --
+
 DROP TABLE IF EXISTS users;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE users(
-	userID int NOT NULL AUTO_INCREMENT,
-	userName varchar(30) NOT NULL,
-	userStatusID int NOT NULL COMMENT 'Estados del usuario definidos en la tabla userStatus' DEFAULT 1,
-	docTypeID int NULL COMMENT 'Referencia a docTypes, tipos de documento.',
-	docNumber varchar(30)  NULL,
-	firstName varchar(100) NOT NULL,
-	lastName varchar(100) NOT NULL,
-	birthdate date  NULL,
-	isAuthenticated int COMMENT 'Indica si el usuario está o no autenticado. 1)Autenticado 2) No autenticado' DEFAULT 2,
-	authenticationDate date COMMENT 'Fecha de autenticación.' DEFAULT NULL,
-    countryID int NULL,
-    stateProvinceID int  NULL,
-	cityID int  NULL,
-	streetAddress varchar(100)  NULL,
-	zipCode varchar(30)  NULL,
-	areaCode varchar(10)  NULL,
-	phoneNumber varchar(20)  NULL,
-	emailAddress varchar(100)  NULL,
-	sexID int  NULL,
-	lastUpdate datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de ultima actualización.',
-	lastLoggin datetime DEFAULT NULL COMMENT 'Fecha del ultimo acceso.',
-	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del usuario.',
-	failCount tinyint NULL DEFAULT 0 COMMENT 'Cuenta la cantidad de ingresos fallidos.',  
+  userID int NOT NULL AUTO_INCREMENT,
+  userStatusID int NOT NULL COMMENT 'Estados del usuario definidos en la tabla userStatus' DEFAULT 1,
+  firstName varchar(100) NOT NULL,
+  lastName varchar(100) NOT NULL,
+  birthdate date NOT NULL,
+  emailAddress varchar(100) NOT NULL,
+  sexID int NOT NULL,
+  registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del usuario.',
   PRIMARY KEY (userID),
-  UNIQUE KEY (emailAddress),
-  UNIQUE KEY (docTypeID, docNumber)
+  UNIQUE KEY (emailAddress)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS usersInformation;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE usersInformation(
+  userID int NOT NULL ,
+  userName varchar(30) NOT NULL,
+  docTypeID int NULL COMMENT 'Referencia a docTypes, tipos de documento.',
+  docNumber varchar(30)  NULL,
+  isAuthenticated int COMMENT 'Indica si el usuario está o no autenticado. 1)Autenticado 2) No autenticado' DEFAULT 2,
+  authenticationDate date COMMENT 'Fecha de autenticación.' DEFAULT NULL,
+  countryID int NULL,
+  stateProvinceID int  NULL,
+  cityID int  NULL,
+  streetAddress varchar(100)  NULL,
+  zipCode varchar(30)  NULL,
+  areaCode varchar(10)  NULL,
+  phoneNumber varchar(20)  NULL,
+  lastUpdate datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de ultima actualización.',
+  lastLoggin datetime DEFAULT NULL COMMENT 'Fecha del ultimo acceso.',
+  failCount tinyint NULL DEFAULT 0 COMMENT 'Cuenta la cantidad de ingresos fallidos.',
+  PRIMARY KEY (userID),
+    UNIQUE KEY (docTypeID, docNumber),
+  CONSTRAINT FK_userUserInf FOREIGN KEY (userID)
+  REFERENCES users(userID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
