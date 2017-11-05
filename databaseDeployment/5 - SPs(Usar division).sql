@@ -1,6 +1,8 @@
--- Dado un ID, devuelve la informaci髇 del usuario.
-DROP PROCEDURE IF EXISTS sp_getUserInformation;
+-- Dado un ID, devuelve la informaci贸n del usuario.
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getUserInformation $$
+
 CREATE PROCEDURE sp_getUserInformation(
   IN _userID int)
 
@@ -34,12 +36,11 @@ WHERE userID = _userID;
 
 
 END $$
-DELIMITER;
 
-
+ DELIMITER;
 -- Devuelve el listado de provincias
-DROP PROCEDURE IF EXISTS sp_getStateProvinces;
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getStateProvinces $$
 CREATE PROCEDURE sp_getStateProvinces()
 
 BEGIN
@@ -51,9 +52,10 @@ FROM stateprovinces;
 END $$
 DELIMITER;
 
--- Dado un ID devuelve la descripci髇 de la provincia
-DROP PROCEDURE IF EXISTS sp_getStateProvinceByID;
+-- Dado un ID devuelve la descripci贸n de la provincia
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getStateProvinceByID $$
 CREATE PROCEDURE sp_getStateProvinceByID(IN _stateProvinceID int)
 
 BEGIN
@@ -68,8 +70,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de ciudades
-DROP PROCEDURE IF EXISTS sp_getCities;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getCities $$
 CREATE PROCEDURE sp_getCities()
 
 BEGIN
@@ -81,9 +84,10 @@ FROM cities;
 END $$
 DELIMITER;
 
--- Dado un ID devuelve la descripci髇 de la ciudad
-DROP PROCEDURE IF EXISTS sp_getCityByID;
+-- Dado un ID devuelve la descripci贸n de la ciudad
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getCityByID $$
 CREATE PROCEDURE sp_getCityByID(IN _cityID int)
 
 BEGIN
@@ -99,8 +103,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de ciudades asociadas a una provincia
-DROP PROCEDURE IF EXISTS sp_getCitesByStateProvinceID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getCitesByStateProvinceID $$
 CREATE PROCEDURE sp_getCitesByStateProvinceID(IN _stateProvinceID int)
 
 BEGIN
@@ -115,8 +120,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de roles de usuario
-DROP PROCEDURE IF EXISTS sp_getRoles;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getRoles $$
 CREATE PROCEDURE sp_getRoles()
 
 BEGIN
@@ -130,8 +136,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de roles de un usuario
-DROP PROCEDURE IF EXISTS sp_getUserRolesByUserID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getUserRolesByUserID $$
 CREATE PROCEDURE sp_getUserRolesByUserID(IN _userID int)
 
 BEGIN
@@ -151,8 +158,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de estados del usuario
-DROP PROCEDURE IF EXISTS sp_getUserStatus;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getUserStatus $$
 CREATE PROCEDURE sp_getUserStatus()
 
 BEGIN
@@ -165,8 +173,9 @@ END $$
 DELIMITER;
 
 -- Actualiza el estado de un usuario
-DROP PROCEDURE IF EXISTS sp_updateUserStatusByUserByID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_updateUserStatusByUserByID $$
 CREATE PROCEDURE sp_updateUserStatusByUserByID(IN _userID int, IN _userStatusID int)
 
 BEGIN
@@ -179,8 +188,9 @@ DELIMITER;
 
 
 -- Incrementa el failCount de un usuario
-DROP PROCEDURE IF EXISTS sp_increaseFailCountByUserID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_increaseFailCountByUserID$$
 CREATE PROCEDURE sp_increaseFailCountByUserID(IN _userID int)
 
 BEGIN
@@ -197,8 +207,9 @@ DELIMITER;
 
 
 
-DROP PROCEDURE IF EXISTS sp_updateUserPassword;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_updateUserPassword $$
 CREATE PROCEDURE sp_updateUserPassword(IN _userID int, IN _newPassword varchar(50))
 
 BEGIN
@@ -219,8 +230,9 @@ DELIMITER;
 
 
 -- Asocia un rol a un usuario
-DROP PROCEDURE IF EXISTS sp_insertUserRole;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertUserRole $$
 CREATE PROCEDURE sp_insertUserRole(IN _userID int, IN _roleID int)
 
 BEGIN
@@ -235,8 +247,9 @@ DELIMITER;
 
 
 -- Devuelve el listado de profesionales que trabajan en una determinada zona
-DROP PROCEDURE IF EXISTS sp_getProfessionalsByWorkplaces;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getProfessionalsByWorkplaces $$
 CREATE PROCEDURE sp_getProfessionalsByWorkplaces(IN _cityID int, IN _professionID int)
 
 BEGIN
@@ -253,8 +266,9 @@ DELIMITER;
 
 
 -- Inserta un nuevo profesional
-DROP PROCEDURE IF EXISTS sp_insertProfessional;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertProfessional $$
 CREATE PROCEDURE sp_insertProfessional(IN _userID int)
 
 BEGIN
@@ -268,8 +282,9 @@ END $$
 DELIMITER;
 
 -- Inserta un nuevo cliente
-DROP PROCEDURE IF EXISTS sp_insertClient;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertClient $$
 CREATE PROCEDURE sp_insertClient(IN _userID int)
 
 BEGIN
@@ -284,8 +299,9 @@ DELIMITER;
 
 
 -- Genera una nueva asociacion entre un profesional y un lugar de trabajo
-DROP PROCEDURE IF EXISTS sp_insertProfessionalWorkplace;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertProfessionalWorkplace $$
 CREATE PROCEDURE sp_insertProfessionalWorkplace(IN _professionalID int, IN _cityID int)
 
 BEGIN
@@ -300,8 +316,9 @@ DELIMITER;
 
 
 -- Genera una nueva asociacion entre un profesional y una profesion
-DROP PROCEDURE IF EXISTS sp_insertProfessionalProfession;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertProfessionalProfession $$
 CREATE PROCEDURE sp_insertProfessionalProfession(IN _professionalID int, IN _professionID int)
 
 BEGIN
@@ -316,8 +333,9 @@ DELIMITER;
 
 
 -- Dado un userID devuelve el professionalID
-DROP PROCEDURE IF EXISTS sp_getProfessionalIDByUserID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getProfessionalIDByUserID $$
 CREATE PROCEDURE sp_getProfessionalIDByUserID(IN _userID int)
 
 BEGIN
@@ -330,9 +348,10 @@ WHERE userID = _userID;
 END $$
 DELIMITER;
 
--- Inserto una nueva profesi髇
-DROP PROCEDURE IF EXISTS sp_insertProfession;
+-- Inserto una nueva profesi贸n
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_insertProfession $$
 CREATE PROCEDURE sp_insertProfession(IN _professionName varchar(50))
 BEGIN
 
@@ -344,9 +363,10 @@ VALUES
 END $$
 DELIMITER;
 
--- Actualizo una profesi髇
-DROP PROCEDURE IF EXISTS sp_updateProfession;
+-- Actualizo una profesi贸n
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_updateProfession $$
 CREATE PROCEDURE sp_updateProfession(IN _professionID int, IN _professionName varchar(50))
 BEGIN
 
@@ -357,9 +377,10 @@ where professionID = _professionID;
 END $$
 DELIMITER;
 
--- Elimino una profesi髇
-DROP PROCEDURE IF EXISTS sp_deleteProfession;
+-- Elimino una profesi贸n
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_deleteProfession $$
 CREATE PROCEDURE sp_deleteProfession(IN _professionID int)
 BEGIN
 
@@ -369,8 +390,9 @@ END $$
 DELIMITER;
 
 -- Obtengo el listado de ciudades asociadas a un Id de provincia
-DROP PROCEDURE IF EXISTS sp_getCitiesByStateProvinceID;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getCitiesByStateProvinceID $$
 CREATE PROCEDURE sp_getCitiesByStateProvinceID(IN _stateProvinceID int)
 BEGIN
 
@@ -382,9 +404,10 @@ END $$
 DELIMITER;
 
 
--- Obtengo una profesi髇 en base a su ID
-DROP PROCEDURE IF EXISTS sp_getProfessionByID;
+-- Obtengo una profesi贸n en base a su ID
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getProfessionByID $$
 CREATE PROCEDURE sp_getProfessionByID(IN _professionID int)
 BEGIN
 
@@ -397,8 +420,9 @@ DELIMITER;
 
 
 -- Obtengo el listado de profesiones
-DROP PROCEDURE IF EXISTS sp_getProfessions;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_getProfessions $$
 CREATE PROCEDURE sp_getProfessions()
 BEGIN
 
@@ -408,8 +432,9 @@ FROM professions;
 END $$
 DELIMITER;
 
-DROP PROCEDURE IF EXISTS sp_validateUser;
+
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_validateUser $$
 CREATE PROCEDURE sp_validateUser(IN _userName varchar(30), IN _userPassword varchar(50))
 BEGIN
 
@@ -420,5 +445,5 @@ SELECT usr.userID userID, usr.userStatusID userStatus, usr.failCount failCount F
  AND    upw.userPasswordStatusID = 1;
 
 END $$
-DELIMITER;
+
 
