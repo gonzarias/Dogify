@@ -131,15 +131,12 @@ $app->get('/getuseridbyname/{userName}', function (Request $request, Response $r
 $app->post('/insertuserbasicinformation', function (Request $request, Response $response) {
 
     // Preparar sentencia
-    $consulta = "call usr_insertBasicInformation(   :userName,
-                                                    :firstName,
-                                                    :lastName,
-                                                    :phoneNumber,
-                                                    :emailAdress
-                                                    );";
+    $consulta = "call usr_insertBasicInformation(:userName,:firstName,:lastName,:phoneNumber,:emailAdress);";
+
     //Obtengo y limpio las variables
     $userName = $request->getParam('userName');
     $userName = clean_var($userName);
+    //$userName = 'Prueba';
 
     $firstName = $request->getParam('firstName');
     $firstName = clean_var($firstName);
@@ -152,6 +149,7 @@ $app->post('/insertuserbasicinformation', function (Request $request, Response $
 
     $emailAdress = $request->getParam('emailAdress');
     $emailAdress = clean_var($emailAdress);
+    //$emailAdress = 'Prueba@prueba.com';
 
     try {
         //Creo una nueva conexión
