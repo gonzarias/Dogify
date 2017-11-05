@@ -9,7 +9,7 @@ CREATE TABLE DocTypes(
 	docDescription varchar(30) NOT NULL,
 	docCode varchar(4) NOT NULL,
 	defaultValue int DEFAULT 0,
-	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del registro.',
+	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creaciÃ³n del registro.',
 	lastUpdate  datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (docTypeID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS roles;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE roles (
-  roleID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del rol del usuario.',
+  roleID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del rol del usuario.',
   roleName varchar(30) NOT NULL COMMENT 'Nombre del rol del usuario.',
-  roleDescription varchar(100) NOT NULL COMMENT 'Descripción del rol.',
+  roleDescription varchar(100) NOT NULL COMMENT 'DescripciÃ³n del rol.',
   PRIMARY KEY (roleID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,9 +38,9 @@ DROP TABLE IF EXISTS scores;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE scores (
-  ScoreID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del score.',
+  ScoreID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del score.',
   scoreName varchar(30) NOT NULL COMMENT 'Nombre del score.',
-  ScoreDescription varchar(100) NOT NULL COMMENT 'Descripción.',
+  ScoreDescription varchar(100) NOT NULL COMMENT 'DescripciÃ³n.',
   PRIMARY KEY (ScoreID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -56,26 +56,26 @@ CREATE TABLE users(
 	userID int NOT NULL AUTO_INCREMENT,
 	userName varchar(30) NOT NULL,
 	userStatusID int NOT NULL COMMENT 'Estados del usuario definidos en la tabla userStatus' DEFAULT 1,
-	docTypeID int NOT NULL COMMENT 'Referencia a docTypes, tipos de documento.',
-	docNumber varchar(30) NOT NULL,
+	docTypeID int NULL COMMENT 'Referencia a docTypes, tipos de documento.',
+	docNumber varchar(30)  NULL,
 	firstName varchar(100) NOT NULL,
 	lastName varchar(100) NOT NULL,
-	birthdate date NOT NULL,
-	isAuthenticated int COMMENT 'Indica si el usuario está o no autenticado. 1)Autenticado 2) No autenticado' DEFAULT 2,
-	authenticationDate date COMMENT 'Fecha de autenticación.' DEFAULT NULL,
-  countryID int,
-  stateProvinceID int NOT NULL,
-	cityID int NOT NULL,
-	streetAddress varchar(100) NOT NULL,
-	zipCode varchar(30) NOT NULL,
-	areaCode varchar(10) NOT NULL,
-	phoneNumber varchar(20) NOT NULL,
-	emailAddress varchar(100) NOT NULL,
-	sexID int NOT NULL,
-	lastUpdate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de ultima actualización.',
-  lastLoggin datetime DEFAULT NULL COMMENT 'Fecha del ultimo acceso.',
-  registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del usuario.',
-  failCount tinyint NOT NULL DEFAULT 0 COMMENT 'Cuenta la cantidad de ingresos fallidos.',  
+	birthdate date  NULL,
+	isAuthenticated int COMMENT 'Indica si el usuario estÃ¡ o no autenticado. 1)Autenticado 2) No autenticado' DEFAULT 2,
+	authenticationDate date COMMENT 'Fecha de autenticaciÃ³n.' DEFAULT NULL,
+    countryID int NULL,
+    stateProvinceID int  NULL,
+	cityID int  NULL,
+	streetAddress varchar(100)  NULL,
+	zipCode varchar(30)  NULL,
+	areaCode varchar(10)  NULL,
+	phoneNumber varchar(20)  NULL,
+	emailAddress varchar(100)  NULL,
+	sexID int  NULL,
+	lastUpdate datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de ultima actualizaciÃ³n.',
+	lastLoggin datetime DEFAULT NULL COMMENT 'Fecha del ultimo acceso.',
+	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creaciÃ³n del usuario.',
+	failCount tinyint NULL DEFAULT 0 COMMENT 'Cuenta la cantidad de ingresos fallidos.',  
   PRIMARY KEY (userID),
   UNIQUE KEY (emailAddress),
   UNIQUE KEY (docTypeID, docNumber)
@@ -90,9 +90,9 @@ DROP TABLE IF EXISTS userStatus;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE userStatus (
-  userStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del estado del usuario.',
+  userStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del estado del usuario.',
   statusName varchar(30) NOT NULL COMMENT 'Nombre del estado.',
-  statusDescription text NOT NULL COMMENT 'Descripción del estado.',
+  statusDescription text NOT NULL COMMENT 'DescripciÃ³n del estado.',
   PRIMARY KEY (userStatusID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -105,11 +105,11 @@ DROP TABLE IF EXISTS grants;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE grants (
-  grantID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del permiso.',
+  grantID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del permiso.',
   grantName varchar(50) NOT NULL COMMENT 'Nombre del permiso.',
-  grantDescription varchar(120) NOT NULL COMMENT 'Descripción del permiso.',
+  grantDescription varchar(120) NOT NULL COMMENT 'DescripciÃ³n del permiso.',
   grantLink varchar(300) NOT NULL COMMENT 'Link para PHP',
-  menuOption int NOT NULL COMMENT 'Especifica si es una opción de menu o no',
+  menuOption int NOT NULL COMMENT 'Especifica si es una opciÃ³n de menu o no',
   PRIMARY KEY (grantID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS clientScores;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE clientScores (
   clientScoreID int NOT NULL AUTO_INCREMENT,
-  scoreID int NOT NULL COMMENT 'Identificador único del score.',
+  scoreID int NOT NULL COMMENT 'Identificador Ãºnico del score.',
   professionalID int NOT NULL,
   comments text COMMENT 'Comentarios.',
   PRIMARY KEY (clientScoreID)
@@ -180,7 +180,7 @@ DROP TABLE IF EXISTS professionalScores;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE professionalScores (
   professionalScoreID int NOT NULL AUTO_INCREMENT,
-  scoreID int NOT NULL COMMENT 'Identificador único del score.',
+  scoreID int NOT NULL COMMENT 'Identificador Ãºnico del score.',
   clientID int NOT NULL,
   comments text COMMENT 'Comentarios.',
   PRIMARY KEY (professionalScoreID)
@@ -195,9 +195,9 @@ DROP TABLE IF EXISTS budgetStatus;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE budgetStatus (
-  budgetStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del estado del presupuesto.',
+  budgetStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del estado del presupuesto.',
   statusName varchar(30) NOT NULL COMMENT 'Nombre del estado.',
-  statusDescription text NOT NULL COMMENT 'Descripción del estado.',
+  statusDescription text NOT NULL COMMENT 'DescripciÃ³n del estado.',
   PRIMARY KEY (budgetStatusID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -210,9 +210,9 @@ DROP TABLE IF EXISTS projectStatus;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE projectStatus (
-  projectStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del estado del proyecto.',
+  projectStatusID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico del estado del proyecto.',
   statusName varchar(30) NOT NULL COMMENT 'Nombre del estado.',
-  statusDescription text NOT NULL COMMENT 'Descripción del estado.',
+  statusDescription text NOT NULL COMMENT 'DescripciÃ³n del estado.',
   PRIMARY KEY (projectStatusID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -289,7 +289,7 @@ DROP TABLE IF EXISTS roleGrants;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE roleGrants (
-  roleGrantID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único de permiso asociado al rol.',
+  roleGrantID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico de permiso asociado al rol.',
   roleID int NOT NULL COMMENT 'Identificador del rol.',
   grantID int NOT NULL COMMENT 'Identificador del permiso.',
   PRIMARY KEY (roleGrantID),
@@ -305,7 +305,7 @@ DROP TABLE IF EXISTS userRoles;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE userRoles (
-  userRoleID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único de la asociación entre el rol y el usuario',
+  userRoleID int NOT NULL AUTO_INCREMENT COMMENT 'Identificador Ãºnico de la asociaciÃ³n entre el rol y el usuario',
   userID int NOT NULL COMMENT 'ID del usuario.',
   roleID int NOT NULL COMMENT 'ID del rol.',
   PRIMARY KEY (userRoleID),
@@ -326,7 +326,7 @@ CREATE TABLE userPasswords(
   userID int NOT NULL,
 	userPasswordStatusID int NOT NULL COMMENT '1 Vigente, 2 Historico' DEFAULT 1,
   userPassword varchar(50) NOT NULL COMMENT 'Password del usuario',
-	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación de la password.',
+	registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creaciÃ³n de la password.',
   PRIMARY KEY (userPasswordID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

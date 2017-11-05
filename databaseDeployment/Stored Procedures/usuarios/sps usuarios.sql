@@ -97,6 +97,36 @@ WHERE userID = _userID;
 END $$
 DELIMITER;
 
+-- Devuelve toda la nomina de usuarios
+DELIMITER $$
+DROP PROCEDURE IF EXISTS usr_getUsers $$
+CREATE PROCEDURE usr_getUsers()
+
+BEGIN
+
+SELECT userID, 
+       userName 
+FROM quieroservicios.users;
+
+
+END $$
+DELIMITER;
+
+-- A partir de un nombre de usuario devuelve el ID
+DELIMITER $$
+DROP PROCEDURE IF EXISTS usr_getUserIdByName $$
+CREATE PROCEDURE usr_getUserIdByName(IN _userName varchar(30))
+
+BEGIN
+
+SELECT userID
+FROM quieroservicios.users
+WHERE userName = _userName;
+
+
+END $$
+DELIMITER;
+
 -- Incrementa el failCount de un usuario
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_increaseFailCountByUserID $$
@@ -148,4 +178,43 @@ VALUES
 (_userID, _roleID);
 
 END $$
+
+DELIMITER;
+
+-- Inserta la informaciòn basica de un usuario
+DELIMITER $$
+DROP PROCEDURE IF EXISTS usr_insertBasicInformation $$
+CREATE PROCEDURE usr_insertBasicInformation (
+											 IN _userName 		varchar(30),
+											 IN _firstName 		varchar(100),
+											 IN _lastName		varchar(100),
+											 IN _phoneNumber 	varchar(20),
+                                             IN _emailAddress 	varchar(100))
+                                             
+
+BEGIN
+
+INSERT INTO users
+(
+userName,
+firstName,
+lastName,
+phoneNumber,
+emailAddress,
+registerDate
+)
+
+VALUES
+(
+_userName,
+_firstName,
+_lastName, 
+_phoneNumber,
+_emailAddress,
+now()
+);
+
+END $$
+
+
 

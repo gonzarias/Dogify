@@ -13,19 +13,17 @@ require '../database/database.php';
 require '../utiles/funciones.php';
 
 
-
 //Variables de debug
 $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
-
 
 //Unicializo el framework
 $app = new \Slim\App();
 
-// obtengo todas las profesiones
+// obtengo todaos los usuarios con el userName
 $app->get('/getusers', function (Request $request, Response $response) {
 
     // Preparar sentencia
-    $consulta = "call sp_getUsers();";
+    $consulta = "call usr_getUsers();";
 
     try {
         //Creo una nueva conexión
@@ -72,23 +70,23 @@ $app->get('/getusers', function (Request $request, Response $response) {
 
 });
 
-/*
-// obtengo una profesión por id
-$app->get('/getusersbyid/{userID}', function (Request $request, Response $response) {
+
+// obtengo un ID de usuario a partir del nombre de usuario
+$app->get('/getuseridbyname/{userName}', function (Request $request, Response $response) {
 
     // Preparar sentencia
-    $consulta = "call sp_getUserByID(:userID);";
+    $consulta = "call usr_getUserIdByName(:userName);";
 
     //Obtengo y limpio las variables
-    $professionID = $request->getAttribute('userID');
-    $professionID = clean_var($professionID);
+    $userName = $request->getAttribute('userName');
+    $userName = clean_var($userName);
 
     try {
         $conn = Database::getInstance()->getDb();
         //Preparo la consulta
         $comando = $conn->prepare($consulta);
         //bindeo el parámetro a la consulta
-        $comando->bindValue(':userID', $professionID);
+        $comando->bindValue(':userName', $userName);
         // Ejecutar sentencia preparada
         $comando->execute();
         //Obtengo el arreglo de registros
@@ -129,15 +127,31 @@ $app->get('/getusersbyid/{userID}', function (Request $request, Response $respon
 
 });
 
-// Inserto una nueva profesión
-$app->post('/inseruser', function (Request $request, Response $response) {
+// Inserto Informacion Basica del Usuario
+$app->post('/insertuserbasicinformation', function (Request $request, Response $response) {
 
     // Preparar sentencia
-    $consulta = "call sp_insertUser(:professionName);";
-
+    $consulta = "call usr_insertBasicInformation(   :userName,
+                                                    :firstName,
+                                                    :lastName,
+                                                    :phoneNumber,
+                                                    :emailAdress
+                                                    );";
     //Obtengo y limpio las variables
-    $professionName = $request->getParam('professionName');
-    $professionName = clean_var($professionName);
+    $userName = $request->getParam('userName');
+    $userName = clean_var($userName);
+
+    $firstName = $request->getParam('firstName');
+    $firstName = clean_var($firstName);
+
+    $lastName = $request->getParam('lastName');
+    $lastName = clean_var($lastName);
+
+    $phoneNumber = $request->getParam('phoneNumber');
+    $phoneNumber = clean_var($phoneNumber);
+
+    $emailAdress = $request->getParam('emailAdress');
+    $emailAdress = clean_var($emailAdress);
 
     try {
         //Creo una nueva conexión
@@ -145,7 +159,12 @@ $app->post('/inseruser', function (Request $request, Response $response) {
         //Preparo la consulta
         $comando = $conn->prepare($consulta);
         //bindeo el parámetro a la consulta
-        $comando->bindValue(':professionName', $professionName);
+        $comando->bindValue(':userName', $userName);
+        $comando->bindValue(':firstName', $firstName);
+        $comando->bindValue(':lastName', $lastName);
+        $comando->bindValue(':phoneNumber', $phoneNumber);
+        $comando->bindValue(':emailAdress', $emailAdress);
+
         // Ejecutar sentencia preparada
         $comando->execute();
         //Obtengo el arreglo de registros
@@ -177,7 +196,7 @@ $app->post('/inseruser', function (Request $request, Response $response) {
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 
 });
-
+/*
 // Actualizo una profesión
 $app->put('/updateprofession', function (Request $request, Response $response) {
 
