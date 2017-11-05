@@ -74,22 +74,21 @@ $app->get('/getprofessions', function (Request $request, Response $response) {
 
 
 // obtengo una profesión por id
-$app->get('/getprofessionbyid/{id}', function (Request $request, Response $response) {
+$app->get('/getprofessionbyid/{professionID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getProfessionByID(:id);";
+		$consulta = "call sp_getProfessionByID(:professionID);";
+
+		//Obtengo y limpio las variables
+        $professionID = $request->getAttribute('professionID');
+        $professionID = clean_var($professionID);
 
         try {
-        		//obtengo el id de la profesión a buscar
-        		$id = $request->getAttribute('id');
-        		//limpio la cadena de caracteres para prevenir SQL Injection
-        		$id = stripslashes($id);
-            	//Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta
                 $comando = $conn->prepare($consulta);
                 //bindeo el parámetro a la consulta
-                $comando->bindValue(':id', $id);
+                $comando->bindValue(':professionID', $professionID);
                 // Ejecutar sentencia preparada
                 $comando->execute();
                 //Obtengo el arreglo de registros
@@ -131,10 +130,10 @@ $app->get('/getprofessionbyid/{id}', function (Request $request, Response $respo
 });
 
 // Inserto una nueva profesión
-$app->post('/setprofession', function (Request $request, Response $response) {
+$app->post('/insertprofession', function (Request $request, Response $response) {
     
         // Preparar sentencia
-        $consulta = "call sp_setProfession(:professionName);";
+        $consulta = "call sp_insertProfession(:professionName);";
         
         //Obtengo y limpio las variables
         $professionName = $request->getParam('professionName');
@@ -185,13 +184,13 @@ $app->put('/updateprofession', function (Request $request, Response $response) {
         // Preparar sentencia
         $consulta = "call sp_updateProfession(:professionID, :professionName);";
 
+        //Obtengo y limpio las variables
+        $professionName = $request->getParam('professionName');
+        $professionName = clean_var($professionName);
+        $professionID = $request->getParam('professionID');
+        $professionID = clean_var($professionID);
+
         try {
-                //obtengo los parámetros
-                $professionName = $request->getParam('professionName');
-                $professionID = $request->getParam('professionID');
-                //limpio la cadena de caracteres para prevenir SQL Injection
-                $professionName = stripslashes($professionName);
-                $professionID = stripslashes($professionID);
                 //Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta
@@ -237,11 +236,11 @@ $app->delete('/deleteprofession', function (Request $request, Response $response
         // Preparar sentencia
         $consulta = "call sp_deleteProfession(:professionID);";
 
+        //Obtengo y limpio las variables
+        $professionID = $request->getParam('professionID');
+        $professionID = clean_var($professionID);
+
         try {
-                //obtengo el ID de la profesión a insertar
-                $professionID = $request->getParam('professionID');
-                //limpio la cadena de caracteres para prevenir SQL Injection
-                $professionID = stripslashes($professionID);
                 //Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta

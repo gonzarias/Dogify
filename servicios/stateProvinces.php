@@ -74,22 +74,22 @@ $app->get('/getstateprovinces', function (Request $request, Response $response) 
 
 
 // obtengo una ciudad por id
-$app->get('/getstateprovincebyid/{id}', function (Request $request, Response $response) {
+$app->get('/getstateprovincebyid/{stateProvinceID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getStateProvinceByID(:id);";
+		$consulta = "call sp_getStateProvinceByID(:stateProvinceID);";
+
+        //Obtengo y limpio las variables
+        $stateProvinceID = $request->getAttribute('stateProvinceID');
+        $stateProvinceID = clean_var($stateProvinceID);
 
         try {
-        		//obtengo el id de la ciudad que se desea buscar
-        		$id = $request->getAttribute('id');
-        		//limpio la cadena de caracteres para prevenir SQL Injection
-        		$id = stripslashes($id);
             	//Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta
                 $comando = $conn->prepare($consulta);
                 //bindeo el parámetro a la consulta
-                $comando->bindValue(':id', $id);
+                $comando->bindValue(':stateProvinceID', $stateProvinceID);
                 // Ejecutar sentencia preparada
                 $comando->execute();
                 //Obtengo el arreglo de registros

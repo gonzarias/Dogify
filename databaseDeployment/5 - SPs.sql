@@ -165,9 +165,9 @@ END $$
 DELIMITER;
 
 -- Actualiza el estado de un usuario
-DROP PROCEDURE IF EXISTS sp_setUserStatusByUserByID;
+DROP PROCEDURE IF EXISTS sp_updateUserStatusByUserByID;
 DELIMITER $$
-CREATE PROCEDURE sp_setUserStatusByUserByID(IN _userID int, IN _userStatusID int)
+CREATE PROCEDURE sp_updateUserStatusByUserByID(IN _userID int, IN _userStatusID int)
 
 BEGIN
 
@@ -197,9 +197,9 @@ DELIMITER;
 
 
 
-DROP PROCEDURE IF EXISTS sp_setUserPassword;
+DROP PROCEDURE IF EXISTS sp_updateUserPassword;
 DELIMITER $$
-CREATE PROCEDURE sp_setUserPassword(IN _userID int, IN _newPassword varchar(50))
+CREATE PROCEDURE sp_updateUserPassword(IN _userID int, IN _newPassword varchar(50))
 
 BEGIN
 
@@ -217,10 +217,11 @@ VALUES
 END $$
 DELIMITER;
 
+
 -- Asocia un rol a un usuario
-DROP PROCEDURE IF EXISTS sp_setUserRole;
+DROP PROCEDURE IF EXISTS sp_insertUserRole;
 DELIMITER $$
-CREATE PROCEDURE sp_setUserRole(IN _userID int, IN _roleID int)
+CREATE PROCEDURE sp_insertUserRole(IN _userID int, IN _roleID int)
 
 BEGIN
 
@@ -252,9 +253,9 @@ DELIMITER;
 
 
 -- Inserta un nuevo profesional
-DROP PROCEDURE IF EXISTS sp_setProfessional;
+DROP PROCEDURE IF EXISTS sp_insertProfessional;
 DELIMITER $$
-CREATE PROCEDURE sp_setProfessional(IN _userID int)
+CREATE PROCEDURE sp_insertProfessional(IN _userID int)
 
 BEGIN
 
@@ -267,9 +268,9 @@ END $$
 DELIMITER;
 
 -- Inserta un nuevo cliente
-DROP PROCEDURE IF EXISTS sp_setClient;
+DROP PROCEDURE IF EXISTS sp_insertClient;
 DELIMITER $$
-CREATE PROCEDURE sp_setClient(IN _userID int)
+CREATE PROCEDURE sp_insertClient(IN _userID int)
 
 BEGIN
 
@@ -283,9 +284,9 @@ DELIMITER;
 
 
 -- Genera una nueva asociacion entre un profesional y un lugar de trabajo
-DROP PROCEDURE IF EXISTS sp_setProfessionalWorkplace;
+DROP PROCEDURE IF EXISTS sp_insertProfessionalWorkplace;
 DELIMITER $$
-CREATE PROCEDURE sp_setProfessionalWorkplace(IN _professionalID int, IN _cityID int)
+CREATE PROCEDURE sp_insertProfessionalWorkplace(IN _professionalID int, IN _cityID int)
 
 BEGIN
 
@@ -299,9 +300,9 @@ DELIMITER;
 
 
 -- Genera una nueva asociacion entre un profesional y una profesion
-DROP PROCEDURE IF EXISTS sp_setProfessionalProfession;
+DROP PROCEDURE IF EXISTS sp_insertProfessionalProfession;
 DELIMITER $$
-CREATE PROCEDURE sp_setProfessionalProfession(IN _professionalID int, IN _professionID int)
+CREATE PROCEDURE sp_insertProfessionalProfession(IN _professionalID int, IN _professionID int)
 
 BEGIN
 
@@ -330,9 +331,9 @@ END $$
 DELIMITER;
 
 -- Inserto una nueva profesión
-DROP PROCEDURE IF EXISTS sp_setProfession;
+DROP PROCEDURE IF EXISTS sp_insertProfession;
 DELIMITER $$
-CREATE PROCEDURE sp_setProfession(IN _professionName varchar(50))
+CREATE PROCEDURE sp_insertProfession(IN _professionName varchar(50))
 BEGIN
 
 INSERT INTO professions
