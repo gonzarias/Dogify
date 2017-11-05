@@ -127,6 +127,21 @@ WHERE userName = _userName;
 END $$
 DELIMITER;
 
+-- A partir de un nombre de usuario devuelve el ID
+DELIMITER $$
+DROP PROCEDURE IF EXISTS usr_getUserIdByMail $$
+CREATE PROCEDURE usr_getUserIdByMail(IN _emailAdress varchar(100))
+
+BEGIN
+
+SELECT userID
+FROM quieroservicios.users
+WHERE emailAdress = _emailAdress;
+
+
+END $$
+DELIMITER;
+
 -- Incrementa el failCount de un usuario
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_increaseFailCountByUserID $$
