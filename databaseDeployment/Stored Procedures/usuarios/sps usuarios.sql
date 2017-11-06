@@ -105,8 +105,8 @@ CREATE PROCEDURE usr_getUsers()
 BEGIN
 
 SELECT userID, 
-       userName 
-FROM quieroservicios.users;
+       emailAdress
+FROM users;
 
 
 END $$
@@ -120,7 +120,7 @@ CREATE PROCEDURE usr_getUserIdByName(IN _userName varchar(30))
 BEGIN
 
 SELECT userID
-FROM quieroservicios.users
+FROM usersInformation
 WHERE userName = _userName;
 
 
@@ -198,36 +198,75 @@ DELIMITER;
 
 -- Inserta la informaciòn basica de un usuario
 DELIMITER $$
-DROP PROCEDURE IF EXISTS usr_insertBasicInformation $$
-CREATE PROCEDURE usr_insertBasicInformation (
-											 IN _userName 		varchar(30),
+DROP PROCEDURE IF EXISTS usr_insertInformation $$
+CREATE PROCEDURE usr_insertInformation (
 											 IN _firstName 		varchar(100),
 											 IN _lastName		varchar(100),
-											 IN _phoneNumber 	varchar(20),
-                                             IN _emailAddress 	varchar(100))
+											 IN _birthDate 	varchar(20),
+											 IN _emailAddress 	varchar(100),
+											 IN _sexID int 
+                        )
                                              
 
 BEGIN
 
 INSERT INTO users
 (
-userName,
 firstName,
 lastName,
-phoneNumber,
+birthDate,
 emailAddress,
+sexID,
 registerDate
 )
 
 VALUES
 (
-_userName,
 _firstName,
 _lastName, 
-_phoneNumber,
+_birthDate,
 _emailAddress,
+_sexID,
 now()
 );
+
+
+END $$
+
+DELIMITER;
+
+-- Inserta la informaciòn basica de un usuario
+DELIMITER $$
+DROP PROCEDURE IF EXISTS usr_insertMoreInformation $$
+CREATE PROCEDURE usr_insertMoreInformation (
+											 IN _userID			int,
+											 IN _userName 		varchar(100)
+                        )
+                                             
+
+BEGIN
+
+IF exists (select userID from users where userID = _userID) THEN
+
+
+	INSERT INTO usersInformation
+	(
+	userID,
+	userName,
+	registerDate
+	)
+
+	VALUES
+	(
+	_userID,
+	_userName, 
+	now()
+	);
+ELSE
+	-- Error para indicar que no existe la clave primaria
+    SIGNAL SQLSTATE '42000' SET MESSAGE_TEXT = 'Primary Key (userId) not exists.', MYSQL_ERRNO = 1171;
+END IF;
+
 
 END $$
 

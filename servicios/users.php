@@ -182,16 +182,14 @@ $app->get('/getuseridbyMail/{emailAddress}', function (Request $request, Respons
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 
 });
+
 // Inserto Informacion Basica del Usuario
-$app->post('/insertuserbasicinformation', function (Request $request, Response $response) {
+$app->post('/insertuserinformation', function (Request $request, Response $response) {
 
     // Preparar sentencia
-    $consulta = "call usr_insertBasicInformation(:userName,:firstName,:lastName,:phoneNumber,:emailAdress);";
+    $consulta = "call usr_insertInformation(:firstName,:lastName,:birthDate,:emailAdress, :sexID);";
 
     //Obtengo y limpio las variables
-    $userName = $request->getParam('userName');
-    $userName = clean_var($userName);
-    //$userName = 'Prueba';
 
     $firstName = $request->getParam('firstName');
     $firstName = clean_var($firstName);
@@ -199,12 +197,16 @@ $app->post('/insertuserbasicinformation', function (Request $request, Response $
     $lastName = $request->getParam('lastName');
     $lastName = clean_var($lastName);
 
-    $phoneNumber = $request->getParam('phoneNumber');
-    $phoneNumber = clean_var($phoneNumber);
+    // Ojo, hay que incorporar validaciòn de formato
+    $birthDate = $request->getParam('birthDate');
+    $birthDate = clean_var($birthDate);
 
     $emailAdress = $request->getParam('emailAdress');
     $emailAdress = clean_var($emailAdress);
-    //$emailAdress = 'Prueba@prueba.com';
+
+    $sexID = $request->getParam('sexID');
+    $sexID = clean_var($sexID);
+
 
     try {
         //Creo una nueva conexión
@@ -212,11 +214,11 @@ $app->post('/insertuserbasicinformation', function (Request $request, Response $
         //Preparo la consulta
         $comando = $conn->prepare($consulta);
         //bindeo el parámetro a la consulta
-        $comando->bindValue(':userName', $userName);
         $comando->bindValue(':firstName', $firstName);
         $comando->bindValue(':lastName', $lastName);
-        $comando->bindValue(':phoneNumber', $phoneNumber);
+        $comando->bindValue(':birthDate', $birthDate);
         $comando->bindValue(':emailAdress', $emailAdress);
+        $comando->bindValue(':sexID', $sexID);
 
         // Ejecutar sentencia preparada
         $comando->execute();
@@ -249,6 +251,64 @@ $app->post('/insertuserbasicinformation', function (Request $request, Response $
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 
 });
+
+// Inserto Informacion Basica del Usuario
+$app->post('/insertusermoreinformation', function (Request $request, Response $response) {
+
+    // Preparar sentencia
+    $consulta = "call usr_insertMoreInformation(:userID,:userName);";
+
+    //Obtengo y limpio las variables
+
+    $userID = $request->getParam('userID');
+    $userID = clean_var($userID);
+
+    $userName = $request->getParam('userName');
+    $userName = clean_var($userName);
+
+
+    try {
+        //Creo una nueva conexión
+        $conn = Database::getInstance()->getDb();
+        //Preparo la consulta
+        $comando = $conn->prepare($consulta);
+        //bindeo el parámetro a la consulta
+        $comando->bindValue(':userID', $userID);
+        $comando->bindValue(':userName', $userName);
+
+
+        // Ejecutar sentencia preparada
+        $comando->execute();
+        //Obtengo el arreglo de registros
+
+        //Armo la respuesta
+        $respuesta["status"] = array("code" => 200, "description" => requestStatus(200)); //OK
+
+
+        //Elimino la conexión
+        $comando  = null;
+        $conn = null;
+    }
+    catch (PDOException $e)
+    {
+        if($GLOBALS["debugMode"] == true)
+            $respuesta["status"] = array("errmsg" => $e->getMessage());
+        else
+            $respuesta["status"] = array("code" => 502, "description" => requestStatus(502));
+    }
+    catch (Exception $e)
+    {
+        if($GLOBALS["debugMode"] == true)
+            $respuesta["status"] = array("errmsg" => $e->getMessage());
+        else
+            $respuesta["status"] = array("code" => 501, "description" => requestStatus(501));
+    }
+
+    //Realizo el envío del mensaje
+    echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+
+});
+
 /*
 // Actualizo una profesión
 $app->put('/updateprofession', function (Request $request, Response $response) {

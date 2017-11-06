@@ -84,6 +84,7 @@ CREATE TABLE usersInformation(
   zipCode varchar(30)  NULL,
   areaCode varchar(10)  NULL,
   phoneNumber varchar(20)  NULL,
+  registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del usuario.',
   lastUpdate datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de ultima actualización.',
   lastLoggin datetime DEFAULT NULL COMMENT 'Fecha del ultimo acceso.',
   failCount tinyint NULL DEFAULT 0 COMMENT 'Cuenta la cantidad de ingresos fallidos.',
