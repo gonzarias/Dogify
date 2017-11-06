@@ -421,7 +421,7 @@ CREATE TABLE loginAttempts (
   LastLogin datetime NOT NULL,
   emailAddress varchar(65) DEFAULT NULL,
   PRIMARY KEY (loginAttemptID)
-)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
