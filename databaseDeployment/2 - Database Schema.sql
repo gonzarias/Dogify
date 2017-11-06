@@ -50,6 +50,7 @@ CREATE TABLE scores (
 -- Table structure for table users
 --
 
+DROP TABLE IF EXISTS usersInformation;
 DROP TABLE IF EXISTS users;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -59,6 +60,7 @@ CREATE TABLE users(
   firstName varchar(100) NOT NULL,
   lastName varchar(100) NOT NULL,
   birthdate date NOT NULL,
+  -- Se agrega check para que permite ingreso de direcciones de email validas.
   emailAddress varchar(100) NOT NULL,
   sexID int NOT NULL,
   registerDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación del usuario.',
