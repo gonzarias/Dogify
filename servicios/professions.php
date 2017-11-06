@@ -18,14 +18,14 @@ require '../utiles/funciones.php';
 $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
 
 
-//Unicializo el framework
+//Inicializo el framework
 $app = new \Slim\App();
 
 // obtengo todas las profesiones
 $app->get('/getprofessions', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getProfessions();";
+		$consulta = "call pfn_getProfessions();";
 
         try {
             	//Creo una nueva conexión
@@ -77,7 +77,7 @@ $app->get('/getprofessions', function (Request $request, Response $response) {
 $app->get('/getprofessionbyid/{professionID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getProfessionByID(:professionID);";
+		$consulta = "call pfn_getProfessionByID(:professionID);";
 
 		//Obtengo y limpio las variables
         $professionID = $request->getAttribute('professionID');
@@ -133,7 +133,7 @@ $app->get('/getprofessionbyid/{professionID}', function (Request $request, Respo
 $app->post('/insertprofession', function (Request $request, Response $response) {
     
         // Preparar sentencia
-        $consulta = "call sp_insertProfession(:professionName);";
+        $consulta = "call pfn_insertProfession(:professionName);";
         
         //Obtengo y limpio las variables
         $professionName = $request->getParam('professionName');
@@ -182,7 +182,7 @@ $app->post('/insertprofession', function (Request $request, Response $response) 
 $app->put('/updateprofession', function (Request $request, Response $response) {
     
         // Preparar sentencia
-        $consulta = "call sp_updateProfession(:professionID, :professionName);";
+        $consulta = "call pfn_updateProfession(:professionID, :professionName);";
 
         //Obtengo y limpio las variables
         $professionName = $request->getParam('professionName');
@@ -230,11 +230,11 @@ $app->put('/updateprofession', function (Request $request, Response $response) {
 
 });
 
-// Elimino una nueva profesión por su ID
+// Elimino una profesión por su ID
 $app->delete('/deleteprofession', function (Request $request, Response $response) {
     
         // Preparar sentencia
-        $consulta = "call sp_deleteProfession(:professionID);";
+        $consulta = "call pfn_deleteProfession(:professionID);";
 
         //Obtengo y limpio las variables
         $professionID = $request->getParam('professionID');

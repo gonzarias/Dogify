@@ -409,6 +409,23 @@ CREATE TABLE sex (
 
 
 --
+-- Table structure for table loginAttempts
+-- Tabla para identificar la cantidad de veces que un usuario intenta loguearse.
+DROP TABLE IF EXISTS loginAttempts;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE loginAttempts (
+  loginAttemptID int NOT NULL AUTO_INCREMENT,
+  IP varchar(50) NOT NULL,
+  Attempts int(11) NOT NULL,
+  LastLogin datetime NOT NULL,
+  emailAddress varchar(65) DEFAULT NULL,
+  PRIMARY KEY (loginAttemptID)
+)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
 -- CONSTRAINTS
 --
 -- ALTER TABLE users ADD CONSTRAINT user_DocTypes_fk FOREIGN KEY (docTypeID) REFERENCES docTypes (docTypeID);

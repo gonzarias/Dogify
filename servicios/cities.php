@@ -18,14 +18,14 @@ require '../utiles/funciones.php';
 $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
 
 
-//Unicializo el framework
+//Inicializo el framework
 $app = new \Slim\App();
 
 // obtengo todas las ciudades
 $app->get('/getcities', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getCities();";
+		$consulta = "call cty_getCities();";
 
         try {
             	//Creo una nueva conexión
@@ -77,7 +77,7 @@ $app->get('/getcities', function (Request $request, Response $response) {
 $app->get('/getcitybyid/{cityID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getCityByID(:cityID);";
+		$consulta = "call cty_getCityByID(:cityID);";
 
         //Obtengo y limpio las variables
         $cityID = $request->getAttribute('cityID');
@@ -134,7 +134,7 @@ $app->get('/getcitybyid/{cityID}', function (Request $request, Response $respons
 $app->get('/getcitiesbystateproviceid/{stateProvinceID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getCitiesByStateProvinceID(:stateProvinceID);";
+		$consulta = "call cty_getCitiesByStateProvinceID(:stateProvinceID);";
 
         //Obtengo y limpio las variables
         $stateProvinceID = $request->getAttribute('stateProvinceID');
@@ -184,6 +184,109 @@ $app->get('/getcitiesbystateproviceid/{stateProvinceID}', function (Request $req
 
         //Realizo el envío del mensaje
     	echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+
+});
+
+
+// Inserto una nueva ciudad
+$app->post('/insertcity', function (Request $request, Response $response) {
+    
+        // Preparar sentencia
+        $consulta = "call cty_insertcity(:stateProvinceID, :cityName);";
+        
+        //Obtengo y limpio las variables
+        $stateProvinceID = $request->getParam('stateProvinceID');
+        $stateProvinceID = clean_var($stateProvinceID);
+        $cityName = $request->getParam('cityName');
+        $cityName = clean_var($cityName);
+
+        try {                
+                //Creo una nueva conexión
+                $conn = Database::getInstance()->getDb();
+                //Preparo la consulta
+                $comando = $conn->prepare($consulta);
+                //bindeo el parámetro a la consulta
+                $comando->bindValue(':stateProvinceID', $stateProvinceID);
+                $comando->bindValue(':cityName', $cityName);
+                // Ejecutar sentencia preparada
+                $comando->execute();
+                //Obtengo el arreglo de registros
+
+                //Armo la respuesta
+                $respuesta["status"] = array("code" => 200, "description" => requestStatus(200)); //OK
+
+
+                //Elimino la conexión
+                $comando  = null;
+                $conn = null;
+        }  
+        catch (PDOException $e) 
+        {
+            if($GLOBALS["debugMode"] == true)
+                $respuesta["status"] = array("errmsg" => $e->getMessage());
+            else
+                $respuesta["status"] = array("code" => 502, "description" => requestStatus(502));       
+        } 
+        catch (Exception $e) 
+        {
+        if($GLOBALS["debugMode"] == true)
+                $respuesta["status"] = array("errmsg" => $e->getMessage());
+            else
+                $respuesta["status"] = array("code" => 501, "description" => requestStatus(501));       
+        }      
+
+        //Realizo el envío del mensaje
+        echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+
+});
+
+
+// Elimino una ciudad por su ID
+$app->delete('/deletecity', function (Request $request, Response $response) {
+    
+        // Preparar sentencia
+        $consulta = "call cty_deletecity(:cityID);";
+
+        //Obtengo y limpio las variables
+        $cityID = $request->getParam('cityID');
+        $cityID = clean_var($cityID);
+
+        try {
+                //Creo una nueva conexión
+                $conn = Database::getInstance()->getDb();
+                //Preparo la consulta
+                $comando = $conn->prepare($consulta);
+                //bindeo el parámetro a la consulta
+                $comando->bindValue(':cityID', $cityID);
+                // Ejecutar sentencia preparada
+                $comando->execute();
+                //Obtengo el arreglo de registros
+
+                //Armo la respuesta
+                $respuesta["status"] = array("code" => 200, "description" => requestStatus(200)); //OK
+
+
+                //Elimino la conexión
+                $comando  = null;
+                $conn = null;
+        }  
+        catch (PDOException $e) 
+        {
+            if($GLOBALS["debugMode"] == true)
+                $respuesta["status"] = array("errmsg" => $e->getMessage());
+            else
+                $respuesta["status"] = array("code" => 502, "description" => requestStatus(502));       
+        } 
+        catch (Exception $e) 
+        {
+        if($GLOBALS["debugMode"] == true)
+                $respuesta["status"] = array("errmsg" => $e->getMessage());
+            else
+                $respuesta["status"] = array("code" => 501, "description" => requestStatus(501));       
+        }      
+
+        //Realizo el envío del mensaje
+        echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 
 });
 

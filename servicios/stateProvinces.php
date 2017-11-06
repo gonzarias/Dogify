@@ -18,14 +18,14 @@ require '../utiles/funciones.php';
 $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
 
 
-//Unicializo el framework
+//Inicializo el framework
 $app = new \Slim\App();
 
 // obtengo todas las ciudades
 $app->get('/getstateprovinces', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getStateProvinces();";
+		$consulta = "call stp_getStateProvinces();";
 
         try {
             	//Creo una nueva conexión
@@ -77,7 +77,7 @@ $app->get('/getstateprovinces', function (Request $request, Response $response) 
 $app->get('/getstateprovincebyid/{stateProvinceID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call sp_getStateProvinceByID(:stateProvinceID);";
+		$consulta = "call stp_getStateProvinceByID(:stateProvinceID);";
 
         //Obtengo y limpio las variables
         $stateProvinceID = $request->getAttribute('stateProvinceID');
