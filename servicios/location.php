@@ -21,17 +21,23 @@ $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
 //Inicializo el framework
 $app = new \Slim\App();
 
-// obtengo todas las ciudades
-$app->get('/getstateprovinces', function (Request $request, Response $response) {
+// obtengo una ciudad por id
+$app->get('/getlocationbyid/{locationID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call stp_getStateProvinces();";
+		$consulta = "call loc_getLocationByID(:locationID);";
+
+        //Obtengo y limpio las variables
+        $locationID = $request->getAttribute('locationID');
+        $locationID = clean_var($locationID);
 
         try {
             	//Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta
                 $comando = $conn->prepare($consulta);
+                //bindeo el parámetro a la consulta
+                $comando->bindValue(':locationID', $locationID);
                 // Ejecutar sentencia preparada
                 $comando->execute();
                 //Obtengo el arreglo de registros
@@ -73,38 +79,46 @@ $app->get('/getstateprovinces', function (Request $request, Response $response) 
 });
 
 
-// obtengo una ciudad por id
-$app->get('/getstateprovincebyid/{stateProvinceID}', function (Request $request, Response $response) {
+// Inserto una nueva ciudad
+$app->post('/insertlocation', function (Request $request, Response $response) {
     
-     	// Preparar sentencia
-		$consulta = "call stp_getStateProvinceByID(:stateProvinceID);";
-
+        // Preparar sentencia
+        $consulta = "call loc_insertlocation(:dogWalkerID, :walkerID,:walkID,:lat,:lng);";
+        
         //Obtengo y limpio las variables
-        $stateProvinceID = $request->getAttribute('stateProvinceID');
-        $stateProvinceID = clean_var($stateProvinceID);
+        $dogWalkerID = $request->getParam('dogWalkerID');
+        $dogWalkerID = clean_var($dogWalkerID);
 
-        try {
-            	//Creo una nueva conexión
+        $walkerID = $request->getParam('walkerID');
+        $walkerID = clean_var($walkerID);
+
+        $walkID = $request->getParam('walkID');
+        $walkID = clean_var($walkID);
+
+        $lat = $request->getParam('lat');
+        $lat = clean_var($lat);
+
+        $lng = $request->getParam('lng');
+        $lng = clean_var($lng);
+
+        try {                
+                //Creo una nueva conexión
                 $conn = Database::getInstance()->getDb();
                 //Preparo la consulta
                 $comando = $conn->prepare($consulta);
                 //bindeo el parámetro a la consulta
-                $comando->bindValue(':stateProvinceID', $stateProvinceID);
+                $comando->bindValue(':dogWalkerID', $dogWalkerID);
+                $comando->bindValue(':walkerID', $walkerID);
+                $comando->bindValue(':walkID', $walkID);
+                $comando->bindValue(':lat', $lat);
+                $comando->bindValue(':lng', $lng);
                 // Ejecutar sentencia preparada
                 $comando->execute();
                 //Obtengo el arreglo de registros
-                $values = $comando->fetchAll(PDO::FETCH_ASSOC);
 
                 //Armo la respuesta
-                if($values)
-                {
-                    $respuesta["status"] = array("code" => 200, "description" => requestStatus(200)); //OK
-                    $respuesta["values"] = $values;
-                }
-                else
-                {
-                    $respuesta["status"] = array("code" => 502, "description" => requestStatus(502)); // No data found
-                }
+                $respuesta["status"] = array("code" => 200, "description" => requestStatus(200)); //OK
+
 
                 //Elimino la conexión
                 $comando  = null;
@@ -126,7 +140,7 @@ $app->get('/getstateprovincebyid/{stateProvinceID}', function (Request $request,
         }      
 
         //Realizo el envío del mensaje
-    	echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+        echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 
 });
 

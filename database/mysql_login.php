@@ -4,7 +4,7 @@
  * Mysql.
  */
 define("HOSTNAME", "localhost");// Nombre del host
-define("DATABASE", "quieroservicios"); // Nombre de la base de datos
+define("DATABASE", "dogify"); // Nombre de la base de datos
 define("USERNAME", "root"); // Nombre del usuario
 define("PASSWORD", ""); // Nombre de la constraseña
 ?>
