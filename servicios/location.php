@@ -22,14 +22,14 @@ $GLOBALS["debugMode"] = true; //Si está en false enmascara el error
 $app = new \Slim\App();
 
 // obtengo una ciudad por id
-$app->get('/getlocationbyid/{locationID}', function (Request $request, Response $response) {
+$app->get('/getlocationbywalkid/{walkID}', function (Request $request, Response $response) {
     
      	// Preparar sentencia
-		$consulta = "call loc_getLocationByID(:locationID);";
+		$consulta = "call loc_getLocationByWalkID(:walkID);";
 
         //Obtengo y limpio las variables
-        $locationID = $request->getAttribute('locationID');
-        $locationID = clean_var($locationID);
+        $walkID = $request->getAttribute('walkID');
+        $walkID = clean_var($walkID);
 
         try {
             	//Creo una nueva conexión
@@ -37,7 +37,7 @@ $app->get('/getlocationbyid/{locationID}', function (Request $request, Response 
                 //Preparo la consulta
                 $comando = $conn->prepare($consulta);
                 //bindeo el parámetro a la consulta
-                $comando->bindValue(':locationID', $locationID);
+                $comando->bindValue(':walkID', $walkID);
                 // Ejecutar sentencia preparada
                 $comando->execute();
                 //Obtengo el arreglo de registros
